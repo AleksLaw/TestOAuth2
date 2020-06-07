@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <!--    <link rel="stylesheet" href="/css/style.css" type="text/css" >-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!--    <link href="webjars/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
           crossorigin="anonymous">
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
             crossorigin="anonymous"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             crossorigin="anonymous"></script>
+
+
 </head>
 <body>
+
 
 <div class="row-fluid ">
     <div>
@@ -42,7 +42,7 @@
         <br>
         <ul class="list-group ">
             <li class="list-group-item border-0 active">
-                <a data-toggle="tab" href="#admin" class=" text-dark">Admin</a>
+                <a data-toggle="tab" href="#admin"  class=" text-dark ">Admin</a>
             </li>
             <li class="list-group-item border-0">
                 <a data-toggle="tab" href="#user" class="text-dark">User</a>
@@ -60,10 +60,10 @@
             <div class="tab-pane container active" id="admin">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#userTable">User table</a>
+                        <a id="userTablePage" name="userTablePage" class="nav-link active" data-toggle="tab" href="#userTable">User table</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#newUser">New User</a>
+                        <a id="newUserPage" class="nav-link" data-toggle="tab" href="#newUser">New User</a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -177,7 +177,7 @@
                             <div class="col"></div>
                             <div class="col">
                                 <div align="center" class="input-group">
-                                    <form class="form-singin form-horizontal" th:action="@{/admin/add}" method="post">
+                                    <form  class="form-singin form-horizontal" id="addNewUser" th:action="@{/admin/add}" method="post">
                                         <br>
                                         <h3 class="h3 mb-3 font-weight-normal">Add new user</h3>
                                         <label>First name</label>
@@ -198,7 +198,8 @@
                                             </select>
                                         </div>
                                         <br>
-                                        <input class="btn btn-lg btn-primary btn-block" type="submit"></input>
+                                        <input id="add_button" type="button" value="restAdd"/>
+<!--                                        <input class="btn btn-lg btn-primary btn-block" type="submit"></input>-->
                                     </form>
                                 </div>
                             </div>
@@ -240,7 +241,15 @@
         </div>
     </div>
 </div>
+<script
+        src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 
+<!--<script src="webjars/jquery/3.3.1/jquery.min.js"></script>-->
+<!--<script src="webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>-->
+<script src="/js/javaScript.js"></script>
 </body>
 </html>

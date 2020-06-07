@@ -26,7 +26,7 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
 
-    @GetMapping("/")
+    @GetMapping("/") //пробую слать на рест
     public String greeting() {
         Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         if (authorities.contains(Role.ADMIN)) {
@@ -45,12 +45,8 @@ public class UserController {
         return "/hello";
     }
 
-//    @GetMapping("/admin/addUserPage")
-//    public String addUserPage() {
-//        return "addUserPage";
-//    }
 
-    @PostMapping("/admin/add")
+    @PostMapping("/admin/add1")
     public String addUser(User user, @RequestParam("role") String role) {
         Set<Role> userRoles = getRoles(role);
         user.setUserRoles(userRoles);
@@ -77,13 +73,6 @@ public class UserController {
     }
 
 
-//    @PostMapping("/admin/editUserPage")
-//    public ModelAndView viewEditPage(@RequestParam Long id) {
-//        Iterable<User> list = userRepo.findAllById(Collections.singleton(id));
-//        ModelAndView modelAndView = new ModelAndView("editUserPage");
-//        modelAndView.getModelMap().addAttribute("listUsers", list);
-//        return modelAndView;
-//    }
 
     @PostMapping("/admin/edit")
     public String editUser(User user, @RequestParam("role") String role) {
@@ -109,31 +98,16 @@ public class UserController {
         return "redirect:/admin/adminPage";
     }
 
-//    @PostMapping("/admin/delUserPage")
-//    public ModelAndView viewDelPage(@RequestParam("id") Long id) {
-//        Iterable<User> list = userRepo.findAllById(Collections.singleton(id));
-//        ModelAndView modelAndView = new ModelAndView("delUserPage");
-//        modelAndView.getModelMap().addAttribute("listUsers", list);
-//        return modelAndView;
-//    }
 
     @GetMapping("/user/userPageInfo")
     public ModelAndView printWelcome(User user) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ModelAndView modelAndView = new ModelAndView("userPageInfo");
+//        ModelAndView modelAndView = new ModelAndView("adminPage");
         modelAndView.getModelMap().addAttribute("currentUser", currentUser);
         return modelAndView;
     }
 
-//    @PostMapping("/user/userPageInfo")
-//    public ModelAndView printWelcomeasd(User user) {
-//        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-//        User byName = userRepo.findByName(name);
-//        Iterable<User> list = userRepo.findAllById(Collections.singleton(byName.getId()));
-//        ModelAndView modelAndView = new ModelAndView("userPageInfo");
-//        modelAndView.getModelMap().addAttribute("listUsers", list);
-//        return modelAndView;
-//    }
 
     private Set<Role> getRoles(@RequestParam("role") String role) {
         Set<Role> userRoles = new HashSet<>();
@@ -144,21 +118,5 @@ public class UserController {
         return userRoles;
     }
 
-//    @GetMapping("/reg")
-//    private String showRegisterPage() {
-//        return "reg";
-//    }
-//
-//    @PostMapping("/reg")
-//    private String showRegisterPageByAddNewUser(User user, Map<String, Object> model) {
-//        User byName = userRepo.findByName(user.getName());
-//        if (byName != null) {
-//            model.put("message", "This isn't new User");
-//            return "reg";
-//        }
-//        user.setUserRoles(Collections.singleton(Role.ADMIN));
-//        userRepo.save(user);
-//        return "redirect:/login";
-//    }
 
 }
