@@ -8,12 +8,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="boot312" />
         <module name="boot311" />
+        <module name="Boot313" />
         <module name="sprBoot312" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Boot313" options="-parameters" />
       <module name="boot311" options="-parameters" />
       <module name="boot312" options="-parameters" />
       <module name="sprBoot312" options="-parameters" />
