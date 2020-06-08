@@ -48,14 +48,15 @@ public class UserControllerRest {
         return byName;
     }
 
-    @PutMapping("/edit/{id}")
+    @PostMapping("/edit")
     public User update(@RequestParam("name") String name,
                        @RequestParam(value = "password", required = false) String password,
                        @RequestParam("lastName") String lastName,
                        @RequestParam("age") String age,
                        @RequestParam("email") String email,
                        @RequestParam("role") String userRoles,
-                       @PathVariable Long id) {
+                       @RequestParam ("id")String idd) {
+        Long id = Long.parseLong(idd);
         int ageInt = Integer.parseInt(age);
         HashSet<Role> roles = (HashSet<Role>) getRoles(userRoles);
         Optional<User> byId = userRepo.findById(id);

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table id="newItems" width="100%">
+    <tr>
+        <th width="7%"><b>Код</b></th>
+        <th><b>Наименование</b></th>
+        <th width="10%"><b>Изображение</b></th>
+        <th width="40%"><b>Описание</b></th>
+    </tr>
+    <tr>
+        <td>900111</td>
+        <td><b>1C:</b> Тонер HP LJ Color 1215/1518/2025/CM1312 (45гр.) Синий</td>
+        <td>
+            <a href="https://www.google.ru/search?q=Тонер HP LJ Color 1215/1518/2025/CM1312 (45гр.)
+            Синий&um=1&hl=ru&tbo=d&biw=1440&bih=783&tbm=isch&source=lnt&tbs=isz:ex,iszw:500,iszh:500&sa=X"
+               target="_blank">Google.Ru</a></td>
+        <td><textarea style="width: 99%">Магазин не знает о товаре с этим кодом</textarea><br/><input type="button"
+                                                                                                      value="Добавить в БД"
+                                                                                                      OnClick="sendPost(this);"/>
+        </td>
+    </tr>
+</table>
+<script>
+    function sendPost(ths) {
+        var tr = ths.parentNode.parentNode,
+        code = tr.getElementsByTagName("td")[0].innerHTML,
+        name = tr.getElementsByTagName("td")[1].innerHTML.replace("<b>", "").replace("</b>", ""),
+        review = tr.getElementsByTagName("td")[3].childNodes[0].value;
+        alert(code+"\n"+name+"\n"+review);
+    }
+</script>
+
+</body>
+</html>

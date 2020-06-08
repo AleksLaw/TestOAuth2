@@ -74,7 +74,7 @@ public class UserController {
 
 
 
-    @PostMapping("/admin/edit")
+    @PostMapping("/admin/edit1")
     public String editUser(User user, @RequestParam("role") String role) {
         User byId = userRepo.findById(user.getId()).get();
         if (user.getPassword() != null) {
@@ -99,7 +99,7 @@ public class UserController {
     }
 
 
-    @GetMapping("/user/userPageInfo")
+    @GetMapping("/user/userPageInfo1")
     public ModelAndView printWelcome(User user) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ModelAndView modelAndView = new ModelAndView("userPageInfo");
