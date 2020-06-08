@@ -2,20 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <!--    <link rel="stylesheet" href="/css/style.css" type="text/css" >-->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<!--    <link href="webjars/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
           crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
             crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous"></script>
+
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
             crossorigin="anonymous"></script>
-
 
 </head>
 <body>
@@ -40,33 +44,30 @@
         <br>
         <br>
         <br>
-        <ul class="list-group ">
-            <li class="list-group-item border-0 active">
-                <a data-toggle="tab" href="#admin"  class=" text-dark ">Admin</a>
-            </li>
-            <li class="list-group-item border-0">
-                <a data-toggle="tab" href="#user" class="text-dark">User</a>
-            </li>
+        <li class="list-group-item border-0 active">
+            <a data-toggle="tab" href="#admin" class=" text-dark" aria-selected="true">Admin</a>
+        </li>
+        <li class="list-group-item border-0">
+            <a data-toggle="tab" href="#user" class="text-dark" aria-selected="false">User</a>
+        </li>
         </ul>
     </div>
-    <div class="col-10 ">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+    <div class="col-10">
+        <br><br><br><br> <br>
         <h1>Admin panel</h1>
         <div class="tab-content">
             <div class="tab-pane container active" id="admin">
-                <ul class="nav nav-tabs">
+                <ul class="nav nav-tabs" id="userTableOrNewUser" role="tablist">
                     <li class="nav-item">
-                        <a id="userTablePage" name="userTablePage" class="nav-link active" data-toggle="tab" href="#userTable">User table</a>
+                        <a id="userTablePage" name="userTablePage" class="nav-link active" role="tab" data-toggle="tab"
+                           href="#userTable">User table</a>
                     </li>
                     <li class="nav-item">
-                        <a id="newUserPage" class="nav-link" data-toggle="tab" href="#newUser">New User</a>
+                        <a id="newUserPage" name="newUserPage" class="nav-link" role="tab" data-toggle="tab"
+                           href="#newUser">New User</a>
                     </li>
                 </ul>
-                <div class="tab-content">
+                <div class="tab-content" id="panelNewAndTable">
                     <div class="tab-pane container active" id="userTable">
                         <br>
                         <h4>All users</h4>
@@ -83,7 +84,7 @@
                                 <th>Delete</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="tbodyAll">
                             <tr th:each="user : ${listUsers}">
                                 <td th:text="${user.id}">ID</td>
                                 <td th:text="${user.name}">Name</td>
@@ -93,73 +94,13 @@
                                 <td th:text="${user.userRoles}">Roles</td>
                                 <td>
                                     <!-- Button to Open the Modal -->
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" th:name="lastUser"
-                                            th:value="${user.id}"
-                                            data-target="#modalEdit">
-                                        Edit
-                                    </button>
+                                    <input th:id="'butEditStartModal_'+${user.id}" type="button" class="btn btn-primary" value="restEdit">
+<!--                                    <button id="edit_buttonOld" type="button" class="btn btn-primary" data-toggle="modal" th:name="lastUser"-->
+<!--                                            th:value="${user.id}"data-target="#modalEdit">-->
+<!--                                        Edit-->
+<!--                                    </button>-->
                                     <!-- The Modal -->
-                                    <div class="modal fade" id="modalEdit">
-                                        <div class="modal-dialog ">
-                                            <div class="modal-content">
-                                                <div class="row">
-                                                    <div class="col-2"></div>
-                                                    <div class="col-8">
-                                                        <!-- Modal Header -->
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">Edit user</h5>
-                                                            <button type="button" class="close" data-dismiss="modal">×
-                                                            </button>
-                                                        </div>
-                                                        <!-- Modal body -->
-                                                        <form class="form-singin form-horizontal"
-                                                              th:action="@{/admin/edit}" method="post">
 
-                                                            <div class="modal-body">
-                                                                <b><p class="text-center mb-0 pb-0">ID</p></b>
-                                                                <input type="text" class="form-control" name="id"
-                                                                       th:placeholder="${user.id}" disabled>
-                                                                <b><p class="text-center mb-0 pb-0 ">First name</p></b>
-                                                                <input type="text" class="form-control" name="name"
-                                                                       th:placeholder="${user.name}">
-                                                                <b><p class="text-center mb-0 pb-0">Last name</p></b>
-                                                                <input type="text" class="form-control" name="lastName"
-                                                                       th:placeholder="${user.lastName}">
-                                                                <b><p class="text-center mb-0 pb-0">Age</p></b>
-                                                                <input type="number" class="form-control" name="age"
-                                                                       th:placeholder="${user.age}">
-                                                                <b><p class="text-center mb-0 pb-0">Email</p></b>
-                                                                <input type="email" class="form-control" name="email"
-                                                                       th:placeholder="${user.email}">
-                                                                <b><p class="text-center mb-0 pb-0">Password</p></b>
-                                                                <input type="text" class="form-control" name="password">
-                                                                <b><p class="text-center mb-0 pb-0">Role</p></b>
-                                                                <div class="select" align="center">
-                                                                    <select class="form-control" name="role" multiple
-                                                                            size="2">
-                                                                        <option>ADMIN</option>
-                                                                        <option>USER</option>
-                                                                    </select>
-                                                                </div>
-                                                                <input type="hidden" name="id" th:value="${user.id}">
-                                                                <br>
-                                                            </div>
-                                                            <!-- Modal footer -->
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                        data-dismiss="modal">Close
-                                                                </button>
-                                                                <button type="submit" class="btn btn-info">Edit
-                                                                </button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-2"></div>
-                                            </div>
-                                        </div>
-                                    </div>
 
                                 </td>
                                 <td>
@@ -170,6 +111,8 @@
                                 </td>
                             </tr>
                             </tbody>
+
+
                         </table>
                     </div>
                     <div class="tab-pane container " id="newUser">
@@ -177,7 +120,8 @@
                             <div class="col"></div>
                             <div class="col">
                                 <div align="center" class="input-group">
-                                    <form  class="form-singin form-horizontal" id="addNewUser" th:action="@{/admin/add}" method="post">
+                                    <form class="form-singin form-horizontal" id="addNewUser" th:action="@{/admin/add}"
+                                          method="post">
                                         <br>
                                         <h3 class="h3 mb-3 font-weight-normal">Add new user</h3>
                                         <label>First name</label>
@@ -199,7 +143,7 @@
                                         </div>
                                         <br>
                                         <input id="add_button" type="button" value="restAdd"/>
-<!--                                        <input class="btn btn-lg btn-primary btn-block" type="submit"></input>-->
+                                        <!--                                        <input class="btn btn-lg btn-primary btn-block" type="submit"></input>-->
                                     </form>
                                 </div>
                             </div>
@@ -241,15 +185,70 @@
         </div>
     </div>
 </div>
-<script
-        src="https://code.jquery.com/jquery-3.5.1.js"
-        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-        crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<div class="modal fade" id="modalEdit">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit user</h5>
+                        <button type="button" class="close" data-dismiss="modal">×
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <form class="form-singin form-horizontal"
+                          th:action="@{/admin/edit}" method="post"
+                          id="userEditModal">
 
+                        <div class="modal-body">
+                            <b><p class="text-center mb-0 pb-0">ID</p></b>
+                            <input type="text" class="form-control" name="id"
+                                   th:placeholder="${user.id}" disabled>
+                            <b><p class="text-center mb-0 pb-0 ">First name</p></b>
+                            <input type="text" class="form-control" name="name"
+                                   th:placeholder="${user.name}">
+                            <b><p class="text-center mb-0 pb-0">Last name</p></b>
+                            <input type="text" class="form-control" name="lastName"
+                                   th:placeholder="${user.lastName}">
+                            <b><p class="text-center mb-0 pb-0">Age</p></b>
+                            <input type="number" class="form-control" name="age"
+                                   th:placeholder="${user.age}">
+                            <b><p class="text-center mb-0 pb-0">Email</p></b>
+                            <input type="email" class="form-control" name="email"
+                                   th:placeholder="${user.email}">
+                            <b><p class="text-center mb-0 pb-0">Password</p></b>
+                            <input type="text" class="form-control" name="password">
+                            <b><p class="text-center mb-0 pb-0">Role</p></b>
+                            <div class="select" align="center">
+                                <select class="form-control" name="role" multiple
+                                        size="2">
+                                    <option>ADMIN</option>
+                                    <option>USER</option>
+                                </select>
+                            </div>
+                            <input type="hidden" name="id" th:value="${user.id}">
+                            <br>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <input id="edit_button" type="button" value="restEdit">
+                            <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal" >Close
+                            </button>
+                            <button type="submit" class="btn btn-info">Edit
+                            </button>
+                        </div>
+                    </form>
+                </div>
 
-<!--<script src="webjars/jquery/3.3.1/jquery.min.js"></script>-->
-<!--<script src="webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>-->
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+</div>
+
 <script src="/js/javaScript.js"></script>
 </body>
 </html>

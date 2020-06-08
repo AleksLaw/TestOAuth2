@@ -48,18 +48,27 @@ public class UserControllerRest {
         return byName;
     }
 
-    @PutMapping("{id}")
-    public void update(@RequestBody User user, @PathVariable Long id) {
+    @PutMapping("/edit/{id}")
+    public User update(@RequestParam("name") String name,
+                       @RequestParam(value = "password", required = false) String password,
+                       @RequestParam("lastName") String lastName,
+                       @RequestParam("age") String age,
+                       @RequestParam("email") String email,
+                       @RequestParam("role") String userRoles,
+                       @PathVariable Long id) {
+        int ageInt = Integer.parseInt(age);
+        HashSet<Role> roles = (HashSet<Role>) getRoles(userRoles);
         Optional<User> byId = userRepo.findById(id);
         User byName = userRepo.findByName(byId.get().getName());
         byName.setId(id);
-        byName.setName(user.getName());
-        byName.setLastName(user.getLastName());
-        byName.setAge(user.getAge());
-        byName.setEmail(user.getEmail());
-        byName.setPassword(passwordEncoder.encode(user.getPassword()));
-        byName.setUserRoles(user.getUserRoles());
+        byName.setName(name);
+        byName.setLastName(lastName);
+        byName.setAge(ageInt);
+        byName.setEmail(email);
+        byName.setPassword(passwordEncoder.encode(password));
+        byName.setUserRoles(roles);
         userRepo.save(byName);
+        return byName;
     }
 
     @DeleteMapping("{id}")
