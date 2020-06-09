@@ -17,17 +17,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                     .authorizeRequests()
                     .antMatchers( "/newAdmin").permitAll()
-                    .antMatchers("/admin/**","/rest/**").hasAuthority("ADMIN")
-                    .antMatchers("/user/**","/rest/**").hasAnyAuthority("USER", "ADMIN")
+                    .antMatchers("/admin/**").hasAuthority("ADMIN")
+                    .antMatchers("/user/**").hasAnyAuthority("USER")
                     .anyRequest()
                     .authenticated()
                 .and()
@@ -38,8 +35,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logout()
                     .logoutSuccessUrl("/login")
                     .permitAll();
-
-
     }
     @Bean
     public PasswordEncoder passwordEncoder(){

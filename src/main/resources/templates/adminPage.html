@@ -84,14 +84,11 @@
                                 <td th:text="${user.userRoles}">Roles</td>
                                 <td>
                                     <!-- Button to Open the Modal -->
-                                    <input onclick="editUser(this)" th:id="'butEditStartModal_'+${user.id}" type="button" class="btn btn-primary" value="restEdit">
+                                    <input onclick="editUser(this)" th:id="'butEditStartModal_'+${user.id}" type="button" class="btn btn-primary" value="Edit">
                                     <!-- The Modal -->
                                 </td>
                                 <td>
-                                    <form th:action="@{/admin/delete}" method="post">
-                                        <input type="hidden" name="id" th:value="${user.id}">
-                                        <input class="btn btn-danger" type="submit" value="Delete">
-                                    </form>
+                                    <input onclick="deleteUser(this)" th:id="'butEditStartModal_'+${user.id}" type="button" class="btn btn-danger" value="Delete">
                                 </td>
                             </tr>
                             </tbody>
@@ -124,7 +121,7 @@
                                             </select>
                                         </div>
                                         <br>
-                                        <input id="add_button" type="button" value="restAdd"/>
+                                        <input id="add_button" type="button" class="btn btn-primary" value="Add"/>
                                     </form>
                                 </div>
                             </div>
@@ -183,7 +180,7 @@
                         <div class="modal-body">
 
                             <b><p class="text-center mb-0 pb-0">ID</p></b>
-                            <input type="text" class="form-control" name="id"
+                            <input type="text" class="form-control" disabled name="id"
                                    th:value="idididididi" >
                             <b><p class="text-center mb-0 pb-0 ">First name</p></b>
                             <input type="text" class="form-control" name="name"
@@ -212,12 +209,70 @@
                         </div>
                         <!-- Modal footer -->
                         <div class="modal-footer">
-                            <input id="edit_button" type="button" value="restEdit">
+                            <input id="edit_button" class="btn btn-info" type="button" value="Edit">
                             <button type="button" class="btn btn-secondary"
                                     data-dismiss="modal" >Close
                             </button>
-                            <button type="submit" class="btn btn-info">Edit
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalDelete">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit user</h5>
+                        <button type="button" class="close" data-dismiss="modal">×
+                        </button>
+                    </div>
+                    <!-- Modal body -->
+                    <form class="form-singin form-horizontal"
+                          th:action="@{/admin/delete}" method="post"
+                          id="userDeleteModal">
+                        <div class="modal-body">
+
+                            <b><p class="text-center mb-0 pb-0">ID</p></b>
+                            <input type="text" class="form-control" disabled name="id"
+                                   th:value="idididididi" >
+                            <b><p class="text-center mb-0 pb-0 ">First name</p></b>
+                            <input type="text" class="form-control" disabled name="name"
+                                   th:placeholder="namenamenamenamename">
+                            <b><p class="text-center mb-0 pb-0">Last name</p></b>
+                            <input type="text" class="form-control" disabled name="lastName"
+                                   th:placeholder="lastNamelastNamelastNamelastName">
+                            <b><p class="text-center mb-0 pb-0">Age</p></b>
+                            <input type="number" class="form-control" disabled name="age"
+                                   th:placeholder="ageageageageage">
+                            <b><p class="text-center mb-0 pb-0">Email</p></b>
+                            <input type="email" class="form-control" disabled name="email"
+                                   th:placeholder="emailemailemailemail">
+                            <b><p class="text-center mb-0 pb-0">Role</p></b>
+                            <div class="select" align="center">
+                                <select class="form-control" disabled name="role" multiple
+                                        size="2">
+                                    <option>ADMIN</option>
+                                    <option>USER</option>
+                                </select>
+                            </div>
+                            <!--                            <input type="hidden" name="id" th:value="${user.id}">-->
+                            <br>
+                        </div>
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <input id="delete_button" class="btn btn-danger" type="button" value="Delete">
+                            <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal" >Close
                             </button>
+
                         </div>
                     </form>
                 </div>

@@ -20,19 +20,6 @@ public class UserControllerRest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/adminPageRest") //пробую слать на рест
-    public Iterable<User> startPage() {
-        Iterable<User> list = userRepo.findAll();
-        return list;
-    }
-
-    @GetMapping("{id}")
-    public User getUserById(@PathVariable Long id) {
-        Optional<User> byId = userRepo.findById(id);
-        User byName = userRepo.findByName(byId.get().getName());
-        return byName;
-    }
-
     @PostMapping("/add")
     public User createUser(@RequestParam("name") String name,
                            @RequestParam(value = "password", required = false) String password,
@@ -55,25 +42,29 @@ public class UserControllerRest {
                        @RequestParam("age") String age,
                        @RequestParam("email") String email,
                        @RequestParam("role") String userRoles,
-                       @RequestParam ("id")String idd) {
+                       @RequestParam("id") String idd) {
         Long id = Long.parseLong(idd);
         int ageInt = Integer.parseInt(age);
         HashSet<Role> roles = (HashSet<Role>) getRoles(userRoles);
         Optional<User> byId = userRepo.findById(id);
         User byName = userRepo.findByName(byId.get().getName());
+        if (password != null || !password.equals("")) {
+            byName.setPassword(passwordEncoder.encode(password));
+        }
         byName.setId(id);
         byName.setName(name);
         byName.setLastName(lastName);
         byName.setAge(ageInt);
         byName.setEmail(email);
-        byName.setPassword(passwordEncoder.encode(password));
+        String password1 = byName.getPassword();
         byName.setUserRoles(roles);
         userRepo.save(byName);
         return byName;
     }
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id) {
+    @PostMapping("/delete")
+    public void delete(@RequestParam("id") String idd) {
+        Long id = Long.parseLong(idd);
         userRepo.deleteById(id);
     }
 
