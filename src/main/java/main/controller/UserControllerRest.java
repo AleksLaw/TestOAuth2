@@ -48,7 +48,7 @@ public class UserControllerRest {
         HashSet<Role> roles = (HashSet<Role>) getRoles(userRoles);
         Optional<User> byId = userRepo.findById(id);
         User byName = userRepo.findByName(byId.get().getName());
-        if (password != null || !password.equals("")) {
+        if (!password.equals("")) {
             byName.setPassword(passwordEncoder.encode(password));
         }
         byName.setId(id);
