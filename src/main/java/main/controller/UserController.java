@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collection;
@@ -43,7 +45,7 @@ public class UserController {
         return "/hello";
     }
 
-    @GetMapping("/admin/adminPage")
+    @RequestMapping(value = "/admin/adminPage", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView listUsers(User user) {
         User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Iterable<User> list = userRepo.findAll();
@@ -52,14 +54,14 @@ public class UserController {
         modelAndView.getModelMap().addAttribute("currentUser", currentUser);
         return modelAndView;
     }
-
-    @PostMapping("/admin/adminPage")
-    public ModelAndView viewAdminPage(User user) {
-        Iterable<User> list = userRepo.findAll();
-        ModelAndView modelAndView = new ModelAndView("adminPage");
-        modelAndView.getModelMap().addAttribute("listUsers", list);
-        return modelAndView;
-    }
+//    method = {RequestMethod.POST, RequestMethod.GET}
+//    @PostMapping("/admin/adminPage")
+//    public ModelAndView viewAdminPage(User user) {
+//        Iterable<User> list = userRepo.findAll();
+//        ModelAndView modelAndView = new ModelAndView("adminPage");
+//        modelAndView.getModelMap().addAttribute("listUsers", list);
+//        return modelAndView;
+//    }
 
     @GetMapping("/user/userPageInfo")
     public ModelAndView printWelcome(User user) {

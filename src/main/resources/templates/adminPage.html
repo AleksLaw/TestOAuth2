@@ -34,20 +34,21 @@
 <div class="row">
     <div class="col-2">
         <br><br><br><br>
-        <li class="list-group-item border-0 active">
-            <a data-toggle="tab" href="#admin" class=" text-dark" aria-selected="true">Admin</a>
+        <ul class="nav nav-pills flex-column">
+        <li class="nav-item active">
+            <a data-toggle="tab" href="#admin" role="tab" class="nav-link text-dark" aria-selected="true">Admin</a>
         </li>
-        <li class="list-group-item border-0">
-            <a data-toggle="tab" href="#user" class="text-dark" aria-selected="false">User</a>
+        <li class="nav-item">
+            <a data-toggle="tab" href="#user" role="tab" class="nav-link text-dark" aria-selected="false">User</a>
         </li>
         </ul>
     </div>
     <div class="col-10">
-        <br><br><br><br> <br>
+        <br><br><br><br><br>
         <h1>Admin panel</h1>
         <div class="tab-content">
             <div class="tab-pane container active" id="admin">
-                <ul class="nav nav-tabs" id="userTableOrNewUser" role="tablist">
+                <ul class="nav nav-tabs"role="tablist">
                     <li class="nav-item">
                         <a id="userTablePage" name="userTablePage" class="nav-link active" role="tab" data-toggle="tab"
                            href="#userTable">User table</a>
@@ -181,21 +182,21 @@
 
                             <b><p class="text-center mb-0 pb-0">ID</p></b>
                             <input type="text" class="form-control" disabled name="id"
-                                   th:value="idididididi" >
+                                   th:value="idididididi"  id="idE">
                             <b><p class="text-center mb-0 pb-0 ">First name</p></b>
                             <input type="text" class="form-control" name="name"
-                                   th:placeholder="namenamenamenamename">
+                                   th:placeholder="namenamenamenamename" id="nameE">
                             <b><p class="text-center mb-0 pb-0">Last name</p></b>
                             <input type="text" class="form-control" name="lastName"
-                                   th:placeholder="lastNamelastNamelastNamelastName">
+                                   th:placeholder="lastNamelastNamelastNamelastName" id="lastNameE">
                             <b><p class="text-center mb-0 pb-0">Age</p></b>
                             <input type="number" class="form-control" name="age"
-                                   th:placeholder="ageageageageage">
+                                   th:placeholder="ageageageageage" id="ageE">
                             <b><p class="text-center mb-0 pb-0">Email</p></b>
                             <input type="email" class="form-control" name="email"
-                                   th:placeholder="emailemailemailemail">
+                                   th:placeholder="emailemailemailemail" id="emailE">
                             <b><p class="text-center mb-0 pb-0">Password</p></b>
-                            <input type="text" class="form-control" name="password">
+                            <input type="text" class="form-control" name="password" id="passwordE">
                             <b><p class="text-center mb-0 pb-0">Role</p></b>
                             <div class="select" align="center">
                                 <select class="form-control" name="role" multiple
@@ -242,19 +243,19 @@
 
                             <b><p class="text-center mb-0 pb-0">ID</p></b>
                             <input type="text" class="form-control" disabled name="id"
-                                   th:value="idididididi" >
+                                   id="idD" >
                             <b><p class="text-center mb-0 pb-0 ">First name</p></b>
                             <input type="text" class="form-control" disabled name="name"
-                                   th:placeholder="namenamenamenamename">
+                                   th:placeholder="namenamenamenamename"  id="nameD">
                             <b><p class="text-center mb-0 pb-0">Last name</p></b>
                             <input type="text" class="form-control" disabled name="lastName"
-                                   th:placeholder="lastNamelastNamelastNamelastName">
+                                   th:placeholder="lastNamelastNamelastNamelastName" id="lastNameD">
                             <b><p class="text-center mb-0 pb-0">Age</p></b>
                             <input type="number" class="form-control" disabled name="age"
-                                   th:placeholder="ageageageageage">
+                                   th:placeholder="ageageageageage" id="ageD">
                             <b><p class="text-center mb-0 pb-0">Email</p></b>
                             <input type="email" class="form-control" disabled name="email"
-                                   th:placeholder="emailemailemailemail">
+                                   th:placeholder="emailemailemailemail" id="emailD">
                             <b><p class="text-center mb-0 pb-0">Role</p></b>
                             <div class="select" align="center">
                                 <select class="form-control" disabled name="role" multiple
@@ -263,7 +264,6 @@
                                     <option>USER</option>
                                 </select>
                             </div>
-                            <!--                            <input type="hidden" name="id" th:value="${user.id}">-->
                             <br>
                         </div>
                         <!-- Modal footer -->

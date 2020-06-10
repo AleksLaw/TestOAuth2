@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -26,7 +25,7 @@ public class UserControllerRest {
                            @RequestParam("lastName") String lastName,
                            @RequestParam("age") String age,
                            @RequestParam("email") String email,
-                           @RequestParam("role") String userRoles, HttpServletResponse response) {
+                           @RequestParam("role") String userRoles) {
         int ageInt = Integer.parseInt(age);
         HashSet<Role> roles = (HashSet<Role>) getRoles(userRoles);
         User user = new User(name, passwordEncoder.encode(password), lastName, ageInt, email, roles);
@@ -56,16 +55,25 @@ public class UserControllerRest {
         byName.setLastName(lastName);
         byName.setAge(ageInt);
         byName.setEmail(email);
-        String password1 = byName.getPassword();
         byName.setUserRoles(roles);
         userRepo.save(byName);
         return byName;
     }
 
+    // ResponseStatus           ResponseEntity<Set<Role>>
     @PostMapping("/delete")
+   // @ResponseStatus
     public void delete(@RequestParam("id") String idd) {
         Long id = Long.parseLong(idd);
         userRepo.deleteById(id);
+    }
+
+    @GetMapping("/get/{id}")
+    public User getUser(@PathVariable("id") String idd) {
+        Long id = Long.parseLong(idd);
+        User byId = userRepo.findById(id).get();
+        //вернуть статус 200
+        return byId;
     }
 
     private Set<Role> getRoles(@RequestParam("role") String role) {
