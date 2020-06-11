@@ -4,6 +4,7 @@ import main.model.Role;
 import main.model.User;
 import main.service.ServiceUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,9 +61,10 @@ public class UserControllerRest {
 
 
     @PostMapping("/delete")
-    public void delete(@RequestParam("id") String idd) {
+    public HttpStatus delete(@RequestParam("id") String idd) {
         Long id = Long.parseLong(idd);
         serviceUser.deleteById(id);
+        return HttpStatus.OK;
     }
 
     @GetMapping("/get/{id}")
