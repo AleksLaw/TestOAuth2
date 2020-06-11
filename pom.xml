@@ -50,6 +50,10 @@
         <artifactId>spring-security-test</artifactId>
         <scope>test</scope>
     </dependency>
+    <dependency>
+        <groupId>org.thymeleaf.extras</groupId>
+        <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+    </dependency>
 
 <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -72,23 +76,23 @@
 
 
     <!--JavaScript and  blablabla-->
-    <dependency>
-        <groupId>org.webjars</groupId>
-        <artifactId>bootstrap</artifactId>
-        <version>4.5.0</version>
-    </dependency>
-    <dependency>
-        <groupId>org.webjars</groupId>
-        <artifactId>bootstrap-datepicker</artifactId>
-        <version>1.7.1</version>
-    </dependency>
-    ​
-    <dependency>
-        <groupId>org.webjars</groupId>
-        <artifactId>jquery</artifactId>
-        <version>3.3.1</version>
-    </dependency>
-    Collapse
+<!--    <dependency>-->
+<!--        <groupId>org.webjars</groupId>-->
+<!--        <artifactId>bootstrap</artifactId>-->
+<!--        <version>4.5.0</version>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--        <groupId>org.webjars</groupId>-->
+<!--        <artifactId>bootstrap-datepicker</artifactId>-->
+<!--        <version>1.7.1</version>-->
+<!--    </dependency>-->
+<!--    ​-->
+<!--    <dependency>-->
+<!--        <groupId>org.webjars</groupId>-->
+<!--        <artifactId>jquery</artifactId>-->
+<!--        <version>3.3.1</version>-->
+<!--    </dependency>-->
+<!--    Collapse-->
 
 
 

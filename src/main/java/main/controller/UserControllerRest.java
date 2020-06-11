@@ -2,20 +2,19 @@ package main.controller;
 
 import main.model.Role;
 import main.model.User;
-import main.repository.UserRepo;
+import main.service.ServiceUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @RestController
 @RequestMapping("/admin")
 public class UserControllerRest {
     @Autowired
-    private UserRepo userRepo;
+    private ServiceUser serviceUser;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -29,8 +28,8 @@ public class UserControllerRest {
         int ageInt = Integer.parseInt(age);
         HashSet<Role> roles = (HashSet<Role>) getRoles(userRoles);
         User user = new User(name, passwordEncoder.encode(password), lastName, ageInt, email, roles);
-        userRepo.save(user);
-        User byName = userRepo.findByName(name);
+        serviceUser.save(user);
+        User byName = serviceUser.findByName(name);
         return byName;
     }
 
@@ -45,8 +44,7 @@ public class UserControllerRest {
         Long id = Long.parseLong(idd);
         int ageInt = Integer.parseInt(age);
         HashSet<Role> roles = (HashSet<Role>) getRoles(userRoles);
-        Optional<User> byId = userRepo.findById(id);
-        User byName = userRepo.findByName(byId.get().getName());
+        User byName = serviceUser.findById(id).get();
         if (!password.equals("")) {
             byName.setPassword(passwordEncoder.encode(password));
         }
@@ -56,23 +54,21 @@ public class UserControllerRest {
         byName.setAge(ageInt);
         byName.setEmail(email);
         byName.setUserRoles(roles);
-        userRepo.save(byName);
+        serviceUser.save(byName);
         return byName;
     }
 
-    // ResponseStatus           ResponseEntity<Set<Role>>
+
     @PostMapping("/delete")
-   // @ResponseStatus
     public void delete(@RequestParam("id") String idd) {
         Long id = Long.parseLong(idd);
-        userRepo.deleteById(id);
+        serviceUser.deleteById(id);
     }
 
     @GetMapping("/get/{id}")
     public User getUser(@PathVariable("id") String idd) {
         Long id = Long.parseLong(idd);
-        User byId = userRepo.findById(id).get();
-        //вернуть статус 200
+        User byId = serviceUser.findById(id).get();
         return byId;
     }
 

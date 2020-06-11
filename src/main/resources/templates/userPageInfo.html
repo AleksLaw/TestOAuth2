@@ -24,24 +24,16 @@
 <div class="row-fluid ">
     <div>
         <nav class="navbar navbar-flex fixed-top bg-dark text-light">
-            <!--            <div th:object="*{currentUser}">-->
             <p><b><span th:text="${currentUser.name}"></span></b> <span> with roles:</span> <span th:text="${currentUser.userRoles}"></span></p>
-            <!--            <label class="navbar-brand" href="#"><p class="text-secondary"th:text="${currentUser.email}"><h6>${currentUser.email} th:text="${currentUser.userRoles}</h6>  with roles: " </p></label>-->
-            <!--            </div>-->
             <form th:action="@{/logout}" method="post">
-                <a href="/logout">
-                    <p class="text-secondary text-right" >Sing out</p>
-                </a>
+                <a href="/logout"><p class="text-secondary text-right" >Sing out</p></a>
             </form>
         </nav>
     </div>
 </div>
 <div class="row">
     <div class="col-2">
-        <br>
-        <br>
-        <br>
-        <br>
+        <br><br><br><br>
         <ul class="list-group ">
             <li class="list-group-item border-0 active">
                 <a data-toggle="tab" href="#user" class=" text-dark">User</a>
@@ -49,11 +41,7 @@
         </ul>
     </div>
     <div class="col-10 ">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+        <br><br><br><br><br>
         <h1>Admin panel</h1>
         <div class="tab-content">
             <div class="tab-pane container  active" id="user">

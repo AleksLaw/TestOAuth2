@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#add_button').on('click', function () {
-//Добавление
+//Добавление пользователя
         $.post("http://localhost:8080/admin/add", $("#addNewUser").serialize())
             .done(function (data) {
                 var id = data.id,
@@ -24,46 +24,37 @@ $(document).ready(function () {
 
 
 function editUser(ths) {
-    //редактирование
-    var tr = ths.parentNode.parentNode;
-    var id = tr.getElementsByTagName("td")[0].innerHTML,
-        name = tr.getElementsByTagName("td")[1].innerHTML,
-        lastname = tr.getElementsByTagName("td")[2].innerHTML,
-        age = Number(tr.getElementsByTagName("td")[3].innerHTML),
-        email = tr.getElementsByTagName("td")[4].innerHTML;
-    // написать через ид молдалкм
-    $('#idE').attr('value', id)
-    $('#nameE').attr('placeholder', name)
-    $('#lastNameE').attr('placeholder', lastname)
-    $('#ageE').attr('placeholder', age)
-    $('#emailE').attr('placeholder', email)
-    $('#modalEdit').modal('show');
-        $('#edit_button').on('click', function () {
-            var myform = $('#userEditModal');
-            var disabled = myform.find(':input:disabled').removeAttr('disabled');
-            var serialized = myform.serialize();
-            disabled.attr('disabled', 'disabled');
-            $('#modalEdit').modal('hide');
-            $('#userTablePage').trigger('click');
-            $.post("http://localhost:8080/admin/edit", serialized)
-                .done(function (data) {
-                    var name = data.name
-                    var lastName = data.lastName
-                    var age = data.age
-                    var email = data.email
-                    var userRoles = data.userRoles
-                    tr.getElementsByTagName("td")[1].innerHTML = name
-                    tr.getElementsByTagName("td")[2].innerHTML = lastName
-                    tr.getElementsByTagName("td")[3].innerHTML = age
-                    tr.getElementsByTagName("td")[4].innerHTML = email
-                    tr.getElementsByTagName("td")[5].innerHTML = userRoles
-                    myform.trigger('reset');
-                })
-    });
+    let tr = ths.parentNode.parentNode;
+    let id = tr.getElementsByTagName("td")[0].innerHTML;
+    $.get(`http://localhost:8080/admin/get/${id}`)
+        .done(function (data) {
+            $('#idE').attr('value', data.id)
+            $('#nameE').attr('placeholder', data.name)
+            $('#lastNameE').attr('placeholder', data.lastName)
+            $('#ageE').attr('placeholder', data.age)
+            $('#emailE').attr('placeholder', data.email)
+            $('#modalEdit').modal('show');
+            $('#edit_button').on('click', function () {
+                var disabled = $('#userEditModal').find(':input:disabled').removeAttr('disabled');
+                var serialized = $('#userEditModal').serialize();
+                disabled.attr('disabled', 'disabled');
+                $('#modalEdit').modal('hide');
+                $('#userTablePage').trigger('click');
+                $.post("http://localhost:8080/admin/edit", serialized)
+                    .done(function (data) {
+                        tr.getElementsByTagName("td")[1].innerHTML = data.name
+                        tr.getElementsByTagName("td")[2].innerHTML =  data.lastName
+                        tr.getElementsByTagName("td")[3].innerHTML = data.age
+                        tr.getElementsByTagName("td")[4].innerHTML = data.email
+                        tr.getElementsByTagName("td")[5].innerHTML = data.userRoles
+                        $('#userEditModal').trigger('reset');
+                    })
+            })
+        });
 };
 
 function deleteUser(ths) {
-    //удаление
+    //удаление пользователя
     var tr = ths.parentNode.parentNode;
     var id = tr.getElementsByTagName("td")[0].innerHTML;
     $.get(`http://localhost:8080/admin/get/${id}`)
