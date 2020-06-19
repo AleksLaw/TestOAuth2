@@ -4,8 +4,6 @@ package main.google;
 import main.model.Role;
 import main.model.User;
 import main.repository.UserRepo;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.FixedAuthoritiesExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.FixedPrincipalExtractor;
@@ -23,12 +21,15 @@ import org.springframework.security.oauth2.common.exceptions.InvalidTokenExcepti
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class CustomUserInfoTokenServices implements ResourceServerTokenServices {
 
     private String userInfoEndpointUrl;
@@ -36,6 +37,7 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
     private OAuth2RestOperations restTemplate;
     private String tokenType = "Bearer";
     private AuthoritiesExtractor authoritiesExtractor = new FixedAuthoritiesExtractor();
+
     private PrincipalExtractor principalExtractor = new FixedPrincipalExtractor();
 
     private UserRepo userRepo;
@@ -101,8 +103,7 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
 
         if(map.containsKey("sub"))
         {
-            String googleName = (String) map.get("name");
-            String googleUsername = (String) map.get("email");
+            String googleUsername = (String) map.get("given_name");
 
             User user = userRepo.findByName(googleUsername);
 
@@ -112,11 +113,9 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
                 user.setUserRoles(Collections.singleton(Role.ADMIN));
             }
 
-            user.setName((String) map.get("name"));
-            user.setLastName((String) map.get("name"));
+            user.setName((String) map.get("given_name"));
+            user.setLastName((String) map.get("family_name"));
             user.setEmail((String) map.get("email"));
-            user.setAge(11);
-
             user.setPassword(passwordEncoder.encode("oauth2user"));
 
             userRepo.save(user);
@@ -130,16 +129,32 @@ public class CustomUserInfoTokenServices implements ResourceServerTokenServices 
     }
 
     private OAuth2Authentication extractAuthentication(Map<String, Object> map) {
-        System.out.println("EXTRACT AUTHENTICATION");
+        //System.out.println("EXTRACT AUTHENTICATION");
+        User user = new User();
+        user.setName((String) map.get("given_name"));
+        user.setLastName((String) map.get("family_name"));
+        user.setEmail((String) map.get("email"));
+        user.setUserRoles(new HashSet<>(Collections.singleton(Role.ADMIN)));
 
-        for(Map.Entry<String, Object> e : map.entrySet())
-        {
-            System.out.println(e.getKey() + " " + e.getValue().toString());
-        }
 
-        Object principal = getPrincipal(map);
+//        for(Map.Entry<String, Object> e : map.entrySet())
+//        {
+//            System.out.println(e.getKey() + " " + e.getValue().toString());
+//        }
+
+        Object principal = user;
+        //Здесь можно сделать свой авторитесэкстрактор и разбирать поля гугла там
+        //или так как сдела я
+
+//        Object principal = getPrincipal(map);
+
+
         List<GrantedAuthority> authorities = this.authoritiesExtractor
                 .extractAuthorities(map);
+
+
+
+
         OAuth2Request request = new OAuth2Request(null, this.clientId, null, true, null,
                 null, null, null, null);
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(

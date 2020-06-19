@@ -25,8 +25,14 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @GetMapping("/")
     public String greeting() {
+//        return "redirect:/good";
         return "redirect:/admin/adminPage";
     }
 

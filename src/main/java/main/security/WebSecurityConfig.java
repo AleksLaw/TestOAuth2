@@ -2,9 +2,9 @@ package main.security;
 
 import main.google.AuthProvider;
 import main.google.CustomUserInfoTokenServices;
-import main.google.UserService;
 import main.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -22,6 +22,9 @@ import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticat
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.servlet.Filter;
 
@@ -29,9 +32,8 @@ import javax.servlet.Filter;
 @EnableWebSecurity
 @EnableOAuth2Client //Для гугл авторизации
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private UserService userDetailsService;
 
+    @Qualifier("oauth2ClientContext")
     @Autowired
     private OAuth2ClientContext oAuth2ClientContext; //Для гугл авторизации
 
@@ -40,9 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthProvider authProvider;
+
     @Autowired
     private UserRepo userRepo;
-
 
     //Провайдер аутентификации
     @Override
@@ -51,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authProvider);
     }
 
-//Регистрация фильтра для перехвата авторизации до срабатывания фильтра Спринга
+    //Регистрация фильтра для перехвата авторизации до срабатывания фильтра Спринга
     @Bean
     public FilterRegistrationBean oAuth2ClientFilterRegistration(OAuth2ClientContextFilter oAuth2ClientContextFilter)
     {
@@ -61,11 +63,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return registration;
     }
 
-//сам фильтр для перехвата авторизации до срабатывания фильтра Спринга
-
+    //сам фильтр для перехвата авторизации до срабатывания фильтра Спринга
     private Filter ssoFilter()
     {
-        OAuth2ClientAuthenticationProcessingFilter googleFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/google");
+        OAuth2ClientAuthenticationProcessingFilter googleFilter = new OAuth2ClientAuthenticationProcessingFilter(
+                "/login/google");
         OAuth2RestTemplate googleTemplate = new OAuth2RestTemplate(google(), oAuth2ClientContext);
         googleFilter.setRestTemplate(googleTemplate);
         CustomUserInfoTokenServices tokenServices = new CustomUserInfoTokenServices(googleResource().getUserInfoUri(), google().getClientId());
@@ -101,38 +103,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().formLogin().loginPage("/login")
                 .defaultSuccessUrl("/admin/adminPage").failureUrl("/login?error").permitAll()
                 .and().logout().logoutSuccessUrl("/").permitAll();
+        http
+                .addFilterBefore(ssoFilter(), UsernamePasswordAuthenticationFilter.class); //Добавление фильтра в конфигурацию
     }
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .csrf().disable()
-//                    .authorizeRequests()
-//                    .antMatchers( "/newAdmin").permitAll()
-//                    .antMatchers("/admin/**").hasAuthority("ADMIN")
-//                    .antMatchers("/user/**").hasAuthority("USER")
-//                    .anyRequest()
-//                    .authenticated()
-//                .and()
-//                    .formLogin()
-//                    .loginPage("/login")
-//                    .permitAll()
-//                .and()
-//                    .logout()
-//                    .logoutSuccessUrl("/login")
-//                    .permitAll();
-//        http.addFilterBefore(ssoFilter(), UsernamePasswordAuthenticationFilter.class); //Добавление фильтра в конфигурацию
-//    }
     @Bean
     public PasswordEncoder passwordEncoder(){
         PasswordEncoder encoder = new BCryptPasswordEncoder(8);
         return encoder;
     }
-//
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-//    }
-
 
 }

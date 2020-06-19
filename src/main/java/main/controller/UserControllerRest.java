@@ -4,7 +4,6 @@ import main.model.Role;
 import main.model.User;
 import main.service.ServiceUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +18,6 @@ public class UserControllerRest {
     private ServiceUser serviceUser;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-
-    @GetMapping("login/google")
-    public String getLoginForm(OAuth2ClientProperties properties) {
-        int i = 4;
-        return "login";
-    }
 
     @PostMapping("/add")
     public User createUser(@RequestParam("name") String name,
