@@ -27,22 +27,9 @@ public class UserController {
 
     @GetMapping("/")
     public String greeting() {
-        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        if (authorities.contains(Role.ADMIN)) {
-            return "redirect:/admin/adminPage";
-        }
-        return "redirect:/user/userPageInfo";
+        return "redirect:/admin/adminPage";
     }
 
-    @GetMapping("/newAdmin")
-    public String newAdmin() {
-        HashSet<Role> roles = new HashSet<>();
-        roles.add(Role.ADMIN);
-        roles.add(Role.USER);
-        User user = new User("ADMIN", passwordEncoder.encode("ADMIN"), "LastName", 23, "asasd@asd.ru", roles);
-        serviceUser.save(user);
-        return "/hello";
-    }
 
     @RequestMapping(value = "/admin/adminPage", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView listUsers(User user) {
@@ -61,4 +48,7 @@ public class UserController {
         modelAndView.getModelMap().addAttribute("currentUser", currentUser);
         return modelAndView;
     }
+
+
+
 }
