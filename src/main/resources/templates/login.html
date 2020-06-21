@@ -40,7 +40,10 @@
                 <button type="submit-flex " class="btn btn-primary btn-block" th:text="#{singin.button}">Sing in</button>
                 <br>
                 <div align="center">
-                    <a href="/login/google" th:text="#{param.login.with.google}">Войти через Google</a>
+                    <span class="social-network-item-icon">
+                        <img src="https://static.avito.ru/s/cc/resources/a0a0fd5f488d.svg"> <a href="/login/google" th:text="#{param.login.with.google}"></a>
+                    </span>
+
                 </div>
                 <div th:if="${param.error}" th:text="#{param.error.message}"></div>
                 <div th:if="${param.logout}" th:text="#{param.logout.message}"></div>
