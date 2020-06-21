@@ -1,4 +1,4 @@
-package main.security;
+package main.google;
 
 import main.google.AuthProvider;
 import main.google.CustomUserInfoTokenServices;

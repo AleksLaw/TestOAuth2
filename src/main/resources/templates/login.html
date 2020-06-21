@@ -16,6 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
             crossorigin="anonymous"></script>
+
 </head>
 <body>
 <br>
@@ -27,25 +28,22 @@
         <div class="col-5">
         </div>
         <div class="col-2">
-            <h3>Please sing in</h3>
+
+            <h3 th:text="#{loginPage.singin}" > </h3>
             <form th:action="@{/login}" method="post">
                 <div class="form-group">
-                    <input type="text" class="form-control" name="username" id="name" placeholder="Name User">
+                    <input type="text" class="form-control" name="username" id="name" th:placeholder="#{nameUser.input.placeholder}">
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" class="form-control" id="password" placeholder="Password">
+                    <input type="password" name="password" class="form-control" id="password" th:placeholder="#{password.input.placeholder}">
                 </div>
-                <button type="submit-flex " class="btn btn-primary btn-block">Sing in</button>
+                <button type="submit-flex " class="btn btn-primary btn-block" th:text="#{singin.button}">Sing in</button>
                 <br>
                 <div align="center">
-                    <a href="/login/google">Войти через Google</a>
+                    <a href="/login/google" th:text="#{param.login.with.google}">Войти через Google</a>
                 </div>
-                <div th:if="${param.error}">
-                    Invalid username and password.
-                </div>
-                <div th:if="${param.logout}">
-                    You have been logged out.
-                </div>
+                <div th:if="${param.error}" th:text="#{param.error.message}"></div>
+                <div th:if="${param.logout}" th:text="#{param.logout.message}"></div>
             </form>
         </div>
         <div class="col-5">
