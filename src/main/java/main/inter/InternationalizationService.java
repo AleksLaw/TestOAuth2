@@ -19,7 +19,7 @@ import org.springframework.web.servlet.view.JstlView;
 import java.util.Locale;
 
 @Configuration
-public class Internationalization implements WebMvcConfigurer {
+public class InternationalizationService implements WebMvcConfigurer {
 
 //    @Override
 //    public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -35,14 +35,12 @@ public class Internationalization implements WebMvcConfigurer {
 //        return resolver;
 //    }
 
-
     @Bean(name ="messageSource")
     public MessageSource reloadableResourceBundleMessageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasenames("classpath:Dictionary");
         return messageSource;
     }
-
 
     @Bean
     public LocaleResolver localeResolver() {
@@ -51,17 +49,17 @@ public class Internationalization implements WebMvcConfigurer {
         return sessionLocaleResolver;
     }
 
-    @Bean
-    public LocaleChangeInterceptor localeChangeInterceptor() {
-        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-        localeChangeInterceptor.setParamName("language");
-        return localeChangeInterceptor;
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor());
-    }
+//    @Bean
+//    public LocaleChangeInterceptor localeChangeInterceptor() {
+//        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+//        localeChangeInterceptor.setParamName("language");
+//        return localeChangeInterceptor;
+//    }
+//
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(localeChangeInterceptor());
+//    }
 }
 
 
